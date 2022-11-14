@@ -1,25 +1,57 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Version,
+  Request,
+  Query,
+  Headers,
+  HttpCode,
+  Redirect,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('user')
+@Controller({
+  path: 'user',
+  version: '1', // 升级版本
+})
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() body) {
+    console.log(body);
+    return {
+      code: 200,
+      message: body.name,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  @HttpCode(500)
+  @Redirect('/34')
+  findAll(@Query() query, @Headers() headers) {
+    console.log(headers);
+    return {
+      code: 200,
+      message: query.name,
+    };
   }
 
   @Get(':id')
+  @Version('2')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    console.log(id);
+    return {
+      code: 200,
+      message: id,
+    };
   }
 
   @Patch(':id')
