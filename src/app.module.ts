@@ -4,9 +4,15 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { DemoService } from './demo.service';
 import { ListModule } from './list/list.module';
-
+import { ConfigModule } from './config/config.module';
 @Module({
-  imports: [UserModule, ListModule],
+  imports: [
+    UserModule,
+    ListModule,
+    ConfigModule.AAA({
+      prefix: 'hihihi',
+    }),
+  ],
   controllers: [AppController],
   providers: [
     {

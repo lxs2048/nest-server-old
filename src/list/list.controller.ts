@@ -1,11 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Inject,
+} from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 
 @Controller('list')
 export class ListController {
-  constructor(private readonly listService: ListService) {}
+  constructor(
+    private readonly listService: ListService,
+    @Inject('Config') private readonly config: any,
+  ) {}
 
   @Post()
   create(@Body() createListDto: CreateListDto) {
@@ -14,7 +26,9 @@ export class ListController {
 
   @Get()
   findAll() {
-    return this.listService.findAll();
+    console.log(this.config);
+
+    return this.config.salt;
   }
 
   @Get(':id')
