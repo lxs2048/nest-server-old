@@ -23,7 +23,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha';
 @Controller({
   path: 'user',
-  version: '1', // 升级版本
+  // version: '1', // 升级版本
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -71,7 +71,6 @@ export class UserController {
   @Get()
   @HttpCode(500)
   findAll(@Query() query, @Headers() headers) {
-    console.log(headers);
     return {
       code: 200,
       message: query.name,

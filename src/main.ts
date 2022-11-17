@@ -2,11 +2,38 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
+import * as cors from 'cors';
+import { Request, Response, NextFunction } from 'express';
+const prisonLists = ['/list'];
+function middlewareAll(req: Request, res: Response, next: NextFunction) {
+  console.log(req.url);
+  if (prisonLists.includes(req.url)) {
+    res.send({ message: '这小子进小黑屋了' });
+  } else {
+    next();
+  }
+}
+const whitelists = ['https://www.baidu.com'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log(origin, whitelists.indexOf(origin));
+    if (whitelists.indexOf(origin) !== -1) {
+      console.log('通过');
+
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+};
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableVersioning({
     type: VersioningType.URI,
   });
+  // app.use(cors()); // 允许所有跨域
+  app.use(cors(corsOptions));
+  app.use(middlewareAll);
   app.use(
     session({
       secret: 'zhangsan',
