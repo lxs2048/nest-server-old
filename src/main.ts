@@ -4,6 +4,8 @@ import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
 import * as cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 const prisonLists = ['/list'];
 function middlewareAll(req: Request, res: Response, next: NextFunction) {
   console.log(req.url);
@@ -27,9 +29,12 @@ const corsOptions = {
   },
 };
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableVersioning({
     type: VersioningType.URI,
+  });
+  app.useStaticAssets(join(__dirname, 'images'), {
+    prefix: '/zhangsan',
   });
   // app.use(cors()); // 允许所有跨域
   app.use(cors(corsOptions));
