@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { DemoService } from './demo.service';
 import { ListModule } from './list/list.module';
 import { ConfigModule } from './config/config.module';
+import { UploadModule } from './upload/upload.module';
 @Module({
   imports: [
     UserModule,
@@ -12,6 +13,7 @@ import { ConfigModule } from './config/config.module';
     ConfigModule.AAA({
       prefix: 'hihihi',
     }),
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
