@@ -23,7 +23,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha';
 @Controller({
   path: 'user',
-  // version: '1', // 升级版本
+  version: '1', // 升级版本
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -43,20 +43,21 @@ export class UserController {
     res.send(captcha.data);
   }
   @Post('create')
-  createUser(@Session() session, @Body() body) {
-    console.log(session, body);
-    if (
-      session.code &&
-      session.code.toLocaleLowerCase() === body?.code?.toLocaleLowerCase()
-    ) {
-      return {
-        message: '验证码正确',
-      };
-    } else {
-      return {
-        message: '验证码错误',
-      };
-    }
+  createUser(@Session() session, @Body() createUserDto: CreateUserDto) {
+    console.log(session, createUserDto);
+    return '...';
+    // if (
+    //   session.code &&
+    //   session.code.toLocaleLowerCase() === body?.code?.toLocaleLowerCase()
+    // ) {
+    //   return {
+    //     message: '验证码正确',
+    //   };
+    // } else {
+    //   return {
+    //     message: '验证码错误',
+    //   };
+    // }
   }
 
   @Post()

@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ResponseInterceptor } from './common/response';
 import { FilterInterceptor } from './common/filter';
+import { ValidationPipe } from '@nestjs/common';
 const prisonLists = [];
 function middlewareAll(req: Request, res: Response, next: NextFunction) {
   if (prisonLists.includes(req.url)) {
@@ -49,6 +50,7 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new FilterInterceptor());
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();

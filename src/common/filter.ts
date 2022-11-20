@@ -8,6 +8,7 @@ import { Request, Response } from 'express';
 
 const getMessage = (exception: HttpException) => {
   const responseExc = exception.getResponse();
+  console.log(responseExc, '===');
   if (typeof responseExc === 'string') {
     return responseExc;
   } else if (responseExc === null) {
@@ -24,6 +25,7 @@ export class FilterInterceptor implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
+
     response.status(status).json({
       error: exception.message,
       message: getMessage(exception),
