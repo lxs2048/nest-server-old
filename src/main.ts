@@ -6,6 +6,8 @@ import * as cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { ResponseInterceptor } from './common/response';
+import { FilterInterceptor } from './common/filter';
 const prisonLists = ['/list'];
 function middlewareAll(req: Request, res: Response, next: NextFunction) {
   console.log(req.url);
@@ -47,6 +49,8 @@ async function bootstrap() {
       cookie: { maxAge: 1 * 24 * 60 * 60 * 1000 },
     }),
   );
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new FilterInterceptor());
   await app.listen(3000);
 }
 bootstrap();
