@@ -8,9 +8,8 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ResponseInterceptor } from './common/response';
 import { FilterInterceptor } from './common/filter';
-const prisonLists = ['/list'];
+const prisonLists = [];
 function middlewareAll(req: Request, res: Response, next: NextFunction) {
-  console.log(req.url);
   if (prisonLists.includes(req.url)) {
     res.send({ message: '这小子进小黑屋了' });
   } else {
@@ -20,7 +19,6 @@ function middlewareAll(req: Request, res: Response, next: NextFunction) {
 const whitelists = ['https://www.baidu.com'];
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(origin, whitelists.indexOf(origin));
     if (whitelists.indexOf(origin) !== -1) {
       console.log('通过');
 

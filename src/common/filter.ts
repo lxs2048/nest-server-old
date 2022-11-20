@@ -6,6 +6,17 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
+const getMessage = (exception: HttpException) => {
+  const responseExc = exception.getResponse();
+  if (typeof responseExc === 'string') {
+    return responseExc;
+  } else if (responseExc === null) {
+    return '';
+  } else {
+    return (responseExc as Error).message;
+  }
+};
+
 @Catch(HttpException)
 export class FilterInterceptor implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
@@ -14,11 +25,12 @@ export class FilterInterceptor implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     response.status(status).json({
-      data: exception.message,
+      error: exception.message,
+      message: getMessage(exception),
       time: new Date().getTime(),
-      success: false,
       path: request.url,
-      status,
+      success: false,
+      statusCode: status,
     });
   }
 }

@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Inject,
+  ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
@@ -19,6 +21,12 @@ export class ListController {
     @Inject('Config') private readonly config: any,
   ) {}
 
+  @Get(':id')
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    console.log(typeof id);
+    return this.listService.findOne(+id);
+  }
+
   @Post()
   create(@Body() createListDto: CreateListDto) {
     return this.listService.create(createListDto);
@@ -29,11 +37,6 @@ export class ListController {
     console.log(this.config);
 
     return this.config.salt;
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listService.findOne(+id);
   }
 
   @Patch(':id')
