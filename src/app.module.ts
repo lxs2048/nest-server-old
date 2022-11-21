@@ -6,6 +6,7 @@ import { DemoService } from './demo.service';
 import { ListModule } from './list/list.module';
 import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
+import { SpiderModule } from './spider/spider.module';
 @Module({
   imports: [
     UserModule,
@@ -14,6 +15,7 @@ import { UploadModule } from './upload/upload.module';
       prefix: 'hihihi',
     }),
     UploadModule,
+    SpiderModule,
   ],
   controllers: [AppController],
   providers: [
