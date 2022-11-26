@@ -11,6 +11,7 @@ import { FilterInterceptor } from './common/filter';
 import { ValidationPipe } from '@nestjs/common';
 import { MyroleGuard } from './user/myrole/myrole.guard';
 import { Reflector } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 const prisonLists = [];
 function middlewareAll(req: Request, res: Response, next: NextFunction) {
   console.log('走全局中间件');
@@ -55,6 +56,14 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new FilterInterceptor());
   app.useGlobalPipes(new ValidationPipe());
+  const options = new DocumentBuilder()
+    .addBearerAuth()
+    .setTitle('接口文档标题')
+    .setDescription('描述，。。。')
+    .setVersion('1')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('/api-docs', app, document);
   await app.listen(3000);
 }
 bootstrap();

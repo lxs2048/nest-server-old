@@ -24,6 +24,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { MyroleGuard } from './myrole/myrole.guard';
 import * as svgCaptcha from 'svg-captcha';
 import { Myrole, ReqUrl } from './myrole/myrole.decorator';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+@ApiBearerAuth()
+@ApiTags('==user==')
 @UseGuards(MyroleGuard)
 @Controller({
   path: 'user',
@@ -32,6 +42,17 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @ApiOperation({ summary: '概要', description: '详细描述' })
+  @ApiQuery({
+    name: 'myrole',
+    type: 'string',
+    required: true,
+    description: '传个权限字符',
+  })
+  @ApiResponse({
+    status: 403,
+    description: '返回内容描述',
+  })
   @Myrole('admin')
   findAll(@Query() query, @Headers() headers, @ReqUrl('hello') url) {
     return url;
@@ -79,6 +100,12 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+    required: true,
+    description: '传个id',
+  })
   findOne(@Param('id') id: string) {
     console.log(id);
     return {
