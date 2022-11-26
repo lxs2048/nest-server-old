@@ -51,7 +51,7 @@ async function bootstrap() {
       cookie: { maxAge: 1 * 24 * 60 * 60 * 1000 },
     }),
   );
-  app.useGlobalGuards(new MyroleGuard(new Reflector()));
+  // app.useGlobalGuards(new MyroleGuard(new Reflector()));
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new FilterInterceptor());
   app.useGlobalPipes(new ValidationPipe());

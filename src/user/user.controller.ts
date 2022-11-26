@@ -23,6 +23,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { MyroleGuard } from './myrole/myrole.guard';
 import * as svgCaptcha from 'svg-captcha';
+import { Myrole, ReqUrl } from './myrole/myrole.decorator';
 @UseGuards(MyroleGuard)
 @Controller({
   path: 'user',
@@ -31,9 +32,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @SetMetadata('myrole', ['admin'])
-  findAll(@Query() query, @Headers() headers) {
-    return 'hello';
+  @Myrole('admin')
+  findAll(@Query() query, @Headers() headers, @ReqUrl('hello') url) {
+    return url;
   }
 
   @Get('code')
