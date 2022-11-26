@@ -15,18 +15,26 @@ import {
   Req,
   Res,
   Session,
+  UseGuards,
+  SetMetadata,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+import { MyroleGuard } from './myrole/myrole.guard';
 import * as svgCaptcha from 'svg-captcha';
+@UseGuards(MyroleGuard)
 @Controller({
   path: 'user',
-  version: '1', // 升级版本
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get()
+  @SetMetadata('myrole', ['admin'])
+  findAll(@Query() query, @Headers() headers) {
+    return 'hello';
+  }
 
   @Get('code')
   createCaptcha(@Req() req, @Res() res) {
@@ -69,17 +77,7 @@ export class UserController {
     };
   }
 
-  @Get()
-  @HttpCode(500)
-  findAll(@Query() query, @Headers() headers) {
-    return {
-      code: 200,
-      message: query.name,
-    };
-  }
-
   @Get(':id')
-  @Version('2')
   findOne(@Param('id') id: string) {
     console.log(id);
     return {
