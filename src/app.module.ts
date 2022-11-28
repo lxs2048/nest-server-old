@@ -8,6 +8,7 @@ import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
 import { SpiderModule } from './spider/spider.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PwdListsModule } from './pwd-lists/pwd-lists.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -30,6 +31,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     UploadModule,
     SpiderModule,
+    PwdListsModule,
   ],
   controllers: [AppController],
   providers: [
