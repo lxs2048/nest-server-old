@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { PwdListsService } from './pwd-lists.service';
 import { CreatePwdListDto } from './dto/create-pwd-list.dto';
 import { UpdatePwdListDto } from './dto/update-pwd-list.dto';
@@ -13,8 +22,8 @@ export class PwdListsController {
   }
 
   @Get()
-  findAll() {
-    return this.pwdListsService.findAll();
+  findAll(@Query() query) {
+    return this.pwdListsService.findAll(query);
   }
 
   @Get(':id')
